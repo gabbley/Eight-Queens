@@ -1,2 +1,46 @@
 Pseudocode for Eight Queens
 
+ChessSquarePanel
+
+Methods:
+	 Constructor, parameters Color and boolean flag
+	 addQueens, recursive with one parameter (boolean matrix, true represents a queen)
+	 isLegal, helper method, determines if queen is placed in valid position
+	 hasEight, helper method, parameter boolean matrix, determines if matrix contains eight queens (regardless of placement)
+	 
+	ChessSquarePanel(Color c, boolean flag){
+	
+	}
+	
+	boolean addQueens(boolean[][] queens){
+	//base case
+	if (hasEight())
+		return true;
+	else
+		try/catch statement
+		try {
+		add new queen boolean (true) to lower right of matrix
+		addQueens(queens)
+		}
+		catch{
+		return false;
+		}
+	
+	}
+	
+	boolean hasEight(){
+		int n = 0;
+		for (int i = 0; i < queens.length; i++) {
+			for (int j = 0; j < queens[i].length; j++) {
+				if (queens[i][j])
+					n++;
+			}
+		}
+		return (n == 8);
+	}
+	
+	boolean isLegal(boolean[][] queens){
+	
+	}
+	
+	
