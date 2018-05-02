@@ -1,4 +1,5 @@
 Pseudocode for Eight Queens
+Gabby Baniqued
 
 ChessSquarePanel
 
@@ -20,7 +21,9 @@ Methods:
 		try/catch statement
 		try {
 		add new queen boolean (true) to lower right of matrix
-		addQueens(queens)
+		if (addQueens(queens))
+			display solution by looping through matrix and using paintComponent
+			to display a Q or Queen image on the true elements
 		}
 		catch{
 		return false;
@@ -39,8 +42,15 @@ Methods:
 		return (n == 8);
 	}
 	
-	boolean isLegal(boolean[][] queens){
-	
+	boolean isLegal(int row, int col, boolean[][] queens){
+		//use for loops to check if the queen's placement is valid
+
+		starting from the given coordinates
+			loop horizontally, if any elements are true, return false
+			loop vertically, if any elements are true, return false
+			loop diagonally, if any elements are true, return false
+			
+			
 	}
 	
 	
