@@ -1,47 +1,115 @@
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Dimension;
 
-public class ChessBoard extends JPanel {
+public class ChessBoard {
+	private static final int ROWS = 8;
+	private static final int COLS = 8;
+	private static final int HEIGHT = 120 * ROWS;
+	private static final int WIDTH = 120 * COLS;
+	private static final Color LIGHT_COLOR = Color.WHITE;
+	private static final Color DARK_COLOR = Color.GRAY;
+	private static final Color FOOTER_COLOR = Color.WHITE;
+	private static final Color HEADER_COLOR = Color.WHITE;
 
-	private final static int FONTSIZE = 20;
-
-	private String letter;
-	private Color backColor;
+	private JFrame window;
+	private JPanel panelOne, panelTwo, panelThree;
+	MyPanel[][] spaces = new MyPanel[ROWS][COLS]; // In order to update the
+													// panels later
+													// you must keep a reference
+													// to them
 
 	ChessBoard() {
-		backColor = Color.BLACK;
-		letter = "Q";
+		buildFrame();
+
+		panelOne = buildHeaderPanel();
+		panelTwo = buildGridPanels();
+		panelThree = buildFooterPanel();
+
+		window.add(panelOne);
+		window.add(panelTwo);
+		window.add(panelThree);
+
+		// window.pack(); // Adjusts the frame size, so - collapses it ...
+		window.setVisible(true);
 	}
 
-	ChessBoard(Color c, String ch) {
-		backColor = c;
-		letter = ch;
+	private void buildFrame() {
+		window = new JFrame("Eight Queens Algorithm");
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setSize(new Dimension(WIDTH, HEIGHT));
+		// could set min, max, and preferred dimensions, I think
+		window.setLayout(new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS));
 	}
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
-		this.setBackground(backColor);
-		g.setColor(Color.RED);
-
-		// removeAll(); // Someone mentioned panels not updating properly, this
-		// may help, but does not seem necessary
-		// x and y center the String, adjust as necessary
-		int x = (this.getWidth() / 2) - FONTSIZE / 4; // - letter.length()/2;
-		int y = (this.getHeight() / 2) + FONTSIZE / 4;
-		g.drawString(letter, x, y);
+	private JPanel buildHeaderPanel() {
+		JPanel p = new JPanel();
+		p.setPreferredSize(new Dimension(WIDTH, 40));
+		p.setMinimumSize(new Dimension(WIDTH, 10));
+		p.setMaximumSize(new Dimension(WIDTH, 50));
+		p.setBackground(HEADER_COLOR);
+		p.add(new JLabel("Eight Queens"));
+		return p;
 	}
 
-	public void setBackColor(Color c) {
-		backColor = c;
-		repaint(); // forces paintComponent to execute
+	private boolean isEven(int x) {
+		return x % 2 == 0;
 	}
 
-	public void setLetter(String letter) {
-		this.letter = letter;
-		repaint(); // forces paintComponent to execute
+	private Color setPanelColor(int row, int col) {
+		if (isEven(row) && !isEven(col))
+			return Color.WHITE;
+		else if (!isEven(row) && isEven(col))
+			return Color.WHITE;
+		else
+			return Color.GRAY;
+	}
+
+	private JPanel buildGridPanels() {
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(ROWS, COLS));
+		Color bg;
+		for (int r = 0; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
+				bg = setPanelColor(r, c);
+				MyPanel m = new MyPanel(bg, (char) ((int) 'a' + r * COLS + c) + "");
+				spaces[r][c] = m; // keep a reference to the panel, so we can
+									// change it
+				p.add(m);
+			}
+		}
+		return p;
+	}
+
+	private JPanel buildFooterPanel() {
+		JPanel p = new JPanel();
+		p.setMinimumSize(new Dimension(WIDTH, 10));
+		p.setMaximumSize(new Dimension(WIDTH, 50));
+		p.setPreferredSize(new Dimension(WIDTH, 40));
+		p.setBackground(FOOTER_COLOR);
+		p.add(new JLabel("Litty"));
+		return p;
+	}
+
+	private void updatePanel(int r, int c, String letter) {
+		// Demonstrating one way to update the panels in the grid
+		// grab the reference to the MyPanel - change the fields
+		MyPanel p = spaces[r][c];
+		// p.removeAll(); // Have not needed this
+		p.setLetter(letter);
+		p.setBackColor(Color.ORANGE);
+		// window.repaint(); // because the set fields update the graphics, this
+		// isn't needed
+	}
+
+	public static void main(String[] args) {
+		ChessBoard pg = new ChessBoard();
+
 	}
 }
