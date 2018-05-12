@@ -13,18 +13,22 @@ public class ChessSquarePanel extends JPanel {
 
 	// These fields are used whenever PaintComponent is executed to update the
 	// panel
-	private String letter;
+	final String QUEEN_CH = "Q";
+	private final static int FONTSIZE = 20;
 	private Color backColor;
 	private boolean queen;
+	private String letter;
 	
 	public ChessSquarePanel(){
 		 backColor = Color.BLUE;
 		 queen = false;
+		 letter = "Q";
 	}
 
 	public ChessSquarePanel(Color c, boolean q) {
 		  backColor = c;
 		  queen = q;
+		  letter = "Q";
 	}
 
 	// recursive, adds queens until there are 8
@@ -43,7 +47,7 @@ public class ChessSquarePanel extends JPanel {
 	}
 
 	public boolean isLegal() {
-
+		
 	}
 
 	public boolean hasEight(boolean[][] queens) {
@@ -57,7 +61,6 @@ public class ChessSquarePanel extends JPanel {
 		return (n == 8);
 	}
 
-	private final static int FONTSIZE = 20;
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -71,7 +74,7 @@ public class ChessSquarePanel extends JPanel {
 		// x and y center the String, adjust as necessary
 		int x = (this.getWidth() / 2) - FONTSIZE / 4; // - letter.length()/2;
 		int y = (this.getHeight() / 2) + FONTSIZE / 4;
-		g.drawString(letter, x, y);
+		g.drawString("Q", x, y);
 	}
 
 	public void setBackColor(Color c) {
@@ -80,7 +83,7 @@ public class ChessSquarePanel extends JPanel {
 	}
 
 	public void setLetter(String letter) {
-		this.letter = letter;
+		this.letter = "Q";
 		repaint(); // forces paintComponent to execute
 	}
 
