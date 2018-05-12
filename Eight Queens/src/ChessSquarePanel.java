@@ -34,7 +34,7 @@ public class ChessSquarePanel extends JPanel {
 	public boolean addQueens(boolean[][] queens) {
 		if (hasEight(queens))
 			return true;
-		else if (!isLegal()) {
+		else if (!isLegal(0,0,queens)) { //???
 			for (int r = 0; r < ROWS; r++) {
 				for (int c = 0; c < COLS; c++) {
 					queens[r][c] = true;
@@ -46,8 +46,24 @@ public class ChessSquarePanel extends JPanel {
 
 	}
 
-	public boolean isLegal() {
+	public boolean isLegal(int r, int c, boolean[][] queens) {
+		for (; r < queens.length; r++) {
+			for (; c < queens[c].length; c++) {
+				// check to the left
+				while (r != 0) {
+					if (queens[r][c])
+						return false;
+					r--;
+				}
 
+				while (c != 0) {
+					if (queens[r][c])
+						return false;
+					c--;
+				}
+
+			}
+		}
 	}
 
 	public boolean hasEight(boolean[][] queens) {
