@@ -24,9 +24,11 @@ public class ChessBoard {
 													// panels later
 													// you must keep a reference
 													// to them
+	boolean[][] queens = new boolean[ROWS][COLS];
 
 	ChessBoard() {
 		buildFrame();
+		fillArr();
 
 		panelOne = buildHeaderPanel();
 		panelTwo = buildGridPanels();
@@ -35,7 +37,7 @@ public class ChessBoard {
 		window.add(panelOne);
 		window.add(panelTwo);
 		window.add(panelThree);
-
+		
 		// window.pack(); // Adjusts the frame size, so - collapses it ...
 		window.setVisible(true);
 	}
@@ -64,11 +66,11 @@ public class ChessBoard {
 
 	private Color setPanelColor(int row, int col) {
 		if (isEven(row) && !isEven(col))
-			return Color.WHITE;
+			return LIGHT_COLOR;
 		else if (!isEven(row) && isEven(col))
-			return Color.WHITE;
+			return LIGHT_COLOR;
 		else
-			return Color.GRAY;
+			return DARK_COLOR;
 	}
 
 	private JPanel buildGridPanels() {
@@ -97,16 +99,30 @@ public class ChessBoard {
 		return p;
 	}
 
-	private void updatePanel(int r, int c, String letter) {
+	private void updatePanel(int r, int c) {
 		// Demonstrating one way to update the panels in the grid
 		// grab the reference to the MyPanel - change the fields
 		ChessSquarePanel p = spaces[r][c];
+		if (queens[r][c] || p.getQueen()){
+			p.setQueen(true);
+		}
 		// p.removeAll(); // Have not needed this
-		p.setLetter(letter);
-		p.setBackColor(Color.ORANGE);
+		//p.setBackColor(Color.ORANGE);
 		// window.repaint(); // because the set fields update the graphics, this
 		// isn't needed
+
 	}
+	
+	private void fillArr(){
+		for (int r = 0; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
+				queens[r][c] = false;
+			}
+		}
+	}
+	
+	
+
 
 	public static void main(String[] args) {
 		ChessBoard cb = new ChessBoard();
@@ -114,6 +130,6 @@ public class ChessBoard {
 	      java.util.Scanner kb = new java.util.Scanner(System.in);
 	      int row = kb.nextInt();
 	      int col = kb.nextInt();
-	      cb.updatePanel(row,col,"Q");
+	      cb.updatePanel(row,col);
 	}
 }

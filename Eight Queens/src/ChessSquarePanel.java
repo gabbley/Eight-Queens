@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.nio.channels.AlreadyBoundException;
 
 import javax.swing.JPanel;
 
@@ -13,41 +14,40 @@ public class ChessSquarePanel extends JPanel {
 
 	// These fields are used whenever PaintComponent is executed to update the
 	// panel
-	final String QUEEN_CH = "Q";
+	private static final int ROWS = 8;
+	private static final int COLS = 8;
 	private final static int FONTSIZE = 20;
 	private Color backColor;
 	private boolean queen;
-	private String letter;
-	
-	public ChessSquarePanel(){
-		 backColor = Color.BLUE;
-		 queen = false;
-		 letter = "Q";
+
+	public ChessSquarePanel() {
+		backColor = Color.WHITE;
+		queen = false;
 	}
 
 	public ChessSquarePanel(Color c, boolean q) {
-		  backColor = c;
-		  queen = q;
-		  letter = "Q";
+		backColor = c;
+		queen = q;
 	}
 
 	// recursive, adds queens until there are 8
 	public boolean addQueens(boolean[][] queens) {
 		if (hasEight(queens))
 			return true;
-		else{
-			try{
-				
+		else if (!isLegal()) {
+			for (int r = 0; r < ROWS; r++) {
+				for (int c = 0; c < COLS; c++) {
+					queens[r][c] = true;
+					return addQueens(queens);
+				}
 			}
-			catch{
-				
-			}
-		}
+		} else
+			return false;
 
 	}
 
 	public boolean isLegal() {
-		
+
 	}
 
 	public boolean hasEight(boolean[][] queens) {
@@ -61,20 +61,17 @@ public class ChessSquarePanel extends JPanel {
 		return (n == 8);
 	}
 
-
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
 		g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
 		this.setBackground(backColor);
-		g.setColor(Color.RED);
+		g.setColor(Color.BLACK);
 
-		// removeAll(); // Someone mentioned panels not updating properly, this
-		// may help, but does not seem necessary
-		// x and y center the String, adjust as necessary
-		int x = (this.getWidth() / 2) - FONTSIZE / 4; // - letter.length()/2;
+		int x = (this.getWidth() / 2) - FONTSIZE / 4;
 		int y = (this.getHeight() / 2) + FONTSIZE / 4;
-		g.drawString("Q", x, y);
+		if (isQueen())
+			g.drawString("Q", x, y);
 	}
 
 	public void setBackColor(Color c) {
@@ -82,13 +79,21 @@ public class ChessSquarePanel extends JPanel {
 		repaint(); // forces paintComponent to execute
 	}
 
-	public void setLetter(String letter) {
-		this.letter = "Q";
-		repaint(); // forces paintComponent to execute
+	public Color getBackColor() {
+		return backColor;
 	}
 
-	public static void main(String[] args) {
-		// ChessBoard board = new ChessBoard();
+	public boolean isQueen() {
+		return queen;
+	}
+
+	public void setQueen(boolean q) {
+		queen = q;
+		repaint();
+	}
+
+	public boolean getQueen() {
+		return queen;
 	}
 
 }
