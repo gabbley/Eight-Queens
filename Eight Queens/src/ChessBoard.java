@@ -20,10 +20,12 @@ public class ChessBoard {
 
 	private JFrame window;
 	private JPanel panelOne, panelTwo, panelThree;
-	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; // In order to update the
-													// panels later
-													// you must keep a reference
-													// to them
+	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; // In order
+																	// to update
+																	// the
+	// panels later
+	// you must keep a reference
+	// to them
 	boolean[][] queens = new boolean[ROWS][COLS];
 
 	ChessBoard() {
@@ -37,7 +39,7 @@ public class ChessBoard {
 		window.add(panelOne);
 		window.add(panelTwo);
 		window.add(panelThree);
-		
+
 		// window.pack(); // Adjusts the frame size, so - collapses it ...
 		window.setVisible(true);
 	}
@@ -80,7 +82,7 @@ public class ChessBoard {
 		for (int r = 0; r < ROWS; r++) {
 			for (int c = 0; c < COLS; c++) {
 				bg = setPanelColor(r, c);
-				ChessSquarePanel m = new ChessSquarePanel(bg, false); //fix!
+				ChessSquarePanel m = new ChessSquarePanel(bg, false); // fix!
 				spaces[r][c] = m; // keep a reference to the panel, so we can
 									// change it
 				p.add(m);
@@ -102,22 +104,26 @@ public class ChessBoard {
 	private void updatePanel(int r, int c) {
 		ChessSquarePanel p = spaces[r][c];
 		p.addQueens(queens);
-		if (queens[r][c]){
-			p.setQueen(true); //displays the Q
+		if (queens[r][c]) {
+			p.setQueen(true); // displays the Q
 		}
 
 	}
-	
-	private void fillArr(){
+
+	private void fillArr() { //places all queens in the first row
 		for (int r = 0; r < ROWS; r++) {
 			for (int c = 0; c < COLS; c++) {
-				queens[r][c] = false;
+				if (c == 0)
+					queens[r][c] = true;
+				else
+					queens[r][c] = false;
 			}
 		}
+
 	}
-	
+
 	public static void main(String[] args) {
 		ChessBoard cb = new ChessBoard();
-		
+
 	}
 }
