@@ -32,17 +32,21 @@ public class ChessSquarePanel extends JPanel {
 
 	// recursive, adds queens until there are 8
 	public boolean addQueens(boolean[][] queens) {
-		if (hasEight(queens))
-			return true;
-		else if (!isLegal(0,0,queens)) { //???
-			for (int r = 0; r < ROWS; r++) {
-				for (int c = 0; c < COLS; c++) {
-					queens[r][c] = true;
-					return addQueens(queens);
-				}
+
+		for (int r = 0; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
+				if (hasEight(queens)) // if not a comp. solution yet
+					return true;
+				else if (!isLegal(r, c, queens)) //*******
+					while (!isLegal(r, c, queens)) //need to fix, this isn't right, cont moving until legal
+						r++;
+				else if (isLegal(r, c, queens)) { // check if placement is legal
+					queens[r][c] = true; // if legal, place queen here	
+					return addQueens(queens); // then send in this new array
+				} else
+					return false; // if no 8 queens and no legal placement available
 			}
-		} else
-			return false;
+		}
 
 	}
 
@@ -56,14 +60,14 @@ public class ChessSquarePanel extends JPanel {
 					r--;
 				}
 
-				while (c != 0) {
+				while (c < 0) {
 					if (queens[r][c])
 						return false;
-					c--;
+					c++;
 				}
-
 			}
 		}
+		return true;
 	}
 
 	public boolean hasEight(boolean[][] queens) {

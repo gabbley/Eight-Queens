@@ -54,3 +54,15 @@ Methods:
 	}
 	
 	
+	
+	process
+		create an empty grid (ChessBoard.java)
+		create a boolean array to rep the queens, set all as false, fillArr()
+		addQueens(), base case, while !hasEightQueens()
+			check if it has 8 queens, it'll start with an empty list
+			add a queen to the first element, display on the board
+			check if legal
+			then add queen to next element, keep moving until it is legal (base case, while !isLegal())
+		when hasEightQueens(), return true and then it is a complete eight queens
+			
+	

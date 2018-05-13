@@ -100,16 +100,11 @@ public class ChessBoard {
 	}
 
 	private void updatePanel(int r, int c) {
-		// Demonstrating one way to update the panels in the grid
-		// grab the reference to the MyPanel - change the fields
 		ChessSquarePanel p = spaces[r][c];
-		if (queens[r][c] || p.getQueen()){
-			p.setQueen(true);
+		p.addQueens(queens);
+		if (queens[r][c]){
+			p.setQueen(true); //displays the Q
 		}
-		// p.removeAll(); // Have not needed this
-		//p.setBackColor(Color.ORANGE);
-		// window.repaint(); // because the set fields update the graphics, this
-		// isn't needed
 
 	}
 	
@@ -121,15 +116,8 @@ public class ChessBoard {
 		}
 	}
 	
-	
-
-
 	public static void main(String[] args) {
 		ChessBoard cb = new ChessBoard();
-		System.out.println("Which Cell (r c): ");
-	      java.util.Scanner kb = new java.util.Scanner(System.in);
-	      int row = kb.nextInt();
-	      int col = kb.nextInt();
-	      cb.updatePanel(row,col);
+		
 	}
 }
