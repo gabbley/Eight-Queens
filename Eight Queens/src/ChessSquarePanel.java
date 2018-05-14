@@ -31,71 +31,47 @@ public class ChessSquarePanel extends JPanel {
 	}
 
 	// recursive, adds queens until there are 8
-	public boolean addQueens(boolean[][] queens) {
-
+	public boolean addQueens(Queen[][] queens) {
+		int r = 0;
+		int c = 0;
 		
-		
-		
-		for (int r = 0; r < ROWS; r++) {
-			for (int c = 0; c < COLS; c++) {
-				if (hasEight(queens)) // if not a comp. solution yet
-					return true;
-				else if (!isLegal(r, c, queens)) //*******
+			while (!hasEight(queens)){
+				if (isLegal(r, c, queens))
 					
-				else if (isLegal(r, c, queens)) { // check if placement is legal
-					queens[r][c] = true; // if legal, place queen here	
-					return addQueens(queens); // then send in this new array
-				} else
-					return false; // if no 8 queens and no legal placement available
 			}
-		}
-
 	}
 
-	public boolean isLegal(int r, int c, boolean[][] queens) {
-		for (; r < queens.length; r++) {
-			for (; c < queens[c].length; c++) {
-				// check to the left
-				while (r != 0) {
-					if (queens[r][c])
-						return false;
-					r--;
-				}
+	public boolean isLegal(int r, int c, Queen[][] queens) {
 
-				while (c < 0) {
-					if (queens[r][c])
-						return false;
-					c++;
-				}
-			}
-		}
 		return true;
 		
 		
 	}
 	
-	public void checkHorizontal(int r, int c, boolean[][] queens){
+	public void checkHorizontal(int r, int c, Queen[][] queens){
 		/*
 		 * if the check is false, r++
 		 * */
 	}
 	
-	public void checkVertical(int r, int c, boolean[][] queens){
+	public void checkVertical(int r, int c, Queen[][] queens){
 	
 		/*if the check is false, c++*/
 	}
 	
-	public boolean checkDiagonal(int r, int c, boolean[][] queens){
+	public boolean checkDiagonal(int r, int c, Queen[][] queens){
 		/*if the check is false
 		 * 
 		 * */
 	}
 
-	public boolean hasEight(boolean[][] queens) {
+	
+	//returns true if there are 8 LEGALLY PLACED queens
+	public boolean hasEight(Queen[][] queens) {
 		int n = 0;
 		for (int i = 0; i < queens.length; i++) {
 			for (int j = 0; j < queens[i].length; j++) {
-				if (queens[i][j])
+				if (queens[i][j].isPiece())
 					n++;
 			}
 		}

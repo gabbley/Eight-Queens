@@ -57,7 +57,7 @@ Methods:
 	
 	process
 		create an empty grid (ChessBoard.java)
-		create a boolean array to rep the queens, set all as false, fillArr()
+		create a boolean array to rep the queens, place queens in first row
 		addQueens(), base case, while !hasEightQueens()
 			check if it has 8 queens, it'll start with an empty list
 			add a queen to the first element, display on the board

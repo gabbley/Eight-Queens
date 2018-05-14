@@ -26,7 +26,7 @@ public class ChessBoard {
 	// panels later
 	// you must keep a reference
 	// to them
-	boolean[][] queens = new boolean[ROWS][COLS];
+	Queen[][] queens = new Queen[ROWS][COLS];
 
 	ChessBoard() {
 		buildFrame();
