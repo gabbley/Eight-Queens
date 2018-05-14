@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.nio.channels.AlreadyBoundException;
 
 import javax.swing.JPanel;
 
@@ -31,47 +30,60 @@ public class ChessSquarePanel extends JPanel {
 	}
 
 	// recursive, adds queens until there are 8
-	public boolean addQueens(Queen[][] queens) {
+	public boolean addQueens(boolean[][] queens) {
 		int r = 0;
-		int c = 0;
-		
-			while (!hasEight(queens)){
-				if (isLegal(r, c, queens))
-					
+
+		while (!hasEight(queens)) {
+			for (int c = 0; c < queens[c].length; c++) {
+				if (isLegal(r, c, queens)) {
+					queens[r][c] = true;
+					return addQueens(queens);
+				} else if (!isLegal(r, c, queens)) {
+					r++;
+					return addQueens(queens);
+				} else
+					return false;
 			}
+		}
+		return true;
 	}
 
-	public boolean isLegal(int r, int c, Queen[][] queens) {
+	public boolean isLegal(int r, int c, boolean[][] queens) {
+		
+		return (checkHorizontal(c, queens) && checkVertical(r, queens) && checkDiagonal(r, c, queens));
 
+	}
+
+	public boolean checkHorizontal(int c, boolean[][] queens) {
+		for (int r = 0; r<queens.length; r++){
+			if (queens[r][c])
+				return false; //not a valid space
+		}
 		return true;
 		
-		
-	}
-	
-	public void checkHorizontal(int r, int c, Queen[][] queens){
-		/*
-		 * if the check is false, r++
-		 * */
-	}
-	
-	public void checkVertical(int r, int c, Queen[][] queens){
-	
-		/*if the check is false, c++*/
-	}
-	
-	public boolean checkDiagonal(int r, int c, Queen[][] queens){
-		/*if the check is false
-		 * 
-		 * */
 	}
 
+	public boolean checkVertical(int r, boolean[][] queens) {
+		
+		for (int c = 0; c<queens[c].length; c++){
+			if (queens[r][c])
+				return false; //not a valid space
+		}
+		return true;
+	}
+
+	public boolean checkDiagonal(int r, int c, boolean[][] queens) {
 	
-	//returns true if there are 8 LEGALLY PLACED queens
-	public boolean hasEight(Queen[][] queens) {
+		
+		
+	}
+
+	// returns true if there are 8 LEGALLY PLACED queens
+	public boolean hasEight(boolean[][] queens) {
 		int n = 0;
 		for (int i = 0; i < queens.length; i++) {
 			for (int j = 0; j < queens[i].length; j++) {
-				if (queens[i][j].isPiece())
+				if (queens[i][j])
 					n++;
 			}
 		}

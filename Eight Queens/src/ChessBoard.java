@@ -20,13 +20,8 @@ public class ChessBoard {
 
 	private JFrame window;
 	private JPanel panelOne, panelTwo, panelThree;
-	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; // In order
-																	// to update
-																	// the
-	// panels later
-	// you must keep a reference
-	// to them
-	Queen[][] queens = new Queen[ROWS][COLS];
+	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; 
+	boolean[][] queens = new boolean[ROWS][COLS];
 
 	ChessBoard() {
 		buildFrame();
