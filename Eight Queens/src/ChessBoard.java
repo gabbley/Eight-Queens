@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,12 +22,18 @@ public class ChessBoard {
 	private JFrame window;
 	private JPanel panelOne, panelTwo, panelThree;
 	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; 
-	boolean[][] queens = new boolean[ROWS][COLS];
+	ArrayList<Queen> queens = new ArrayList<Queen>();
 
+	/**
+	 * <h1>ChessBoard</h1>Description here
+	 * 
+	 * @author Gabby Baniqued
+	 */
 	ChessBoard() {
 		buildFrame();
+		queens = new ArrayList<Queen>();
 		fillArr();
-
+		
 		panelOne = buildHeaderPanel();
 		panelTwo = buildGridPanels();
 		panelThree = buildFooterPanel();
@@ -92,33 +99,30 @@ public class ChessBoard {
 		p.setMaximumSize(new Dimension(WIDTH, 50));
 		p.setPreferredSize(new Dimension(WIDTH, 40));
 		p.setBackground(FOOTER_COLOR);
-		p.add(new JLabel("Litty"));
+		p.add(new JLabel("Litty!!!"));
 		return p;
 	}
 
 	private void updatePanel(int r, int c) {
 		ChessSquarePanel p = spaces[r][c];
-		p.addQueens(queens);
-		if (queens[r][c]) {
-			p.setQueen(true); // displays the Q
+		if (p.addQueens(r, c, queens) ) {
+			System.out.println("Eight Queens Successfully Displayed");
+			//p.setQueen(true); // displays the Q
 		}
+		else
+			System.out.println("you suck");
 
 	}
 
-	private void fillArr() { //places all queens in the first row
+	private void fillArr() { 
 		for (int r = 0; r < ROWS; r++) {
-			for (int c = 0; c < COLS; c++) {
-				if (c == 0)
-					queens[r][c] = true;
-				else
-					queens[r][c] = false;
-			}
+			//queen.get(r).ge
 		}
 
 	}
 
 	public static void main(String[] args) {
 		ChessBoard cb = new ChessBoard();
-
+		cb.updatePanel(0, 0);
 	}
 }

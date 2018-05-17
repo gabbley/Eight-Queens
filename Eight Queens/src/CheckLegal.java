@@ -1,17 +1,8 @@
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-
-/**
- * <h1>ChessSquarePanel</h1>Description here
- * 
- * @author Gabby Baniqued
- */
-public class ChessSquarePanel extends JPanel {
-
+public class CheckLegal {
+	
 	// These fields are used whenever PaintComponent is executed to update the
 	// panel
 	private static final int ROWS = 8;
@@ -20,27 +11,12 @@ public class ChessSquarePanel extends JPanel {
 	private final static int FONTSIZE = 20;
 	private Color backColor;
 	private boolean queen;
-	ArrayList<Queen> placedQueens = new ArrayList<Queen>(ROWS);
+	ArrayList<Queen> placedQueens = new ArrayList<Queen>();
 
-	/**
-	 * Default constructor for ChessSquarePanel
-	 * 		Sets default backColor as white
-	 * 		Does not hold a validly placed queen (false)
-	 */
-	public ChessSquarePanel() {
-		backColor = Color.WHITE;
-		queen = false;
+	public CheckLegal() {
+		// TODO Auto-generated constructor stub
 	}
-
-	/**
-	 * Constructor for ChessSquarePanel
-	 * 		Sets backColor and boolean flag for queen
-	 */
-	public ChessSquarePanel(Color c, boolean q) {
-		backColor = c;
-		queen = q;
-	}
-
+	
 	
 	/**
 	 * Recursively adds queens to the Chess Board until there are
@@ -59,7 +35,7 @@ public class ChessSquarePanel extends JPanel {
 				if (isLegal(r, c, queens)) {
 					placedQueens.add(new Queen(r, c));
 					c++;
-					this.setQueen(true);
+					//this.setQueen(true);
 					return addQueens(r, c, queens);
 				} 
 			}
@@ -152,37 +128,5 @@ public class ChessSquarePanel extends JPanel {
 		return true;
 	}
 
-	/**
-	 * Displays a "Q" on the Board (add more to this****)
-	 * 
-	 * @param g
-	 * 		Graphics
-	 * 
-	 */
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
-		this.setBackground(backColor);
-		g.setColor(Color.BLACK);
-
-		int x = (this.getWidth() / 2) - FONTSIZE / 4;
-		int y = (this.getHeight() / 2) + FONTSIZE / 4;
-		if (isQueen())
-			g.drawString(QUEEN, x, y);
-	}
-
-	public boolean isQueen() {
-		return queen;
-	}
-
-	public void setQueen(boolean q) {
-		queen = q;
-		repaint();
-	}
-
-	public boolean getQueen() {
-		return queen;
-	}
 
 }
