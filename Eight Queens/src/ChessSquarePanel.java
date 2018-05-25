@@ -20,12 +20,11 @@ public class ChessSquarePanel extends JPanel {
 	private final static int FONTSIZE = 20;
 	private Color backColor;
 	private boolean queen;
-	ArrayList<Queen> placedQueens = new ArrayList<Queen>(ROWS);
+	ArrayList<ArrayList<Queen>> sol = new ArrayList<ArrayList<Queen>>();
 
 	/**
-	 * Default constructor for ChessSquarePanel
-	 * 		Sets default backColor as white
-	 * 		Does not hold a validly placed queen (false)
+	 * Default constructor for ChessSquarePanel Sets default backColor as white
+	 * Does not hold a validly placed queen (false)
 	 */
 	public ChessSquarePanel() {
 		backColor = Color.WHITE;
@@ -33,51 +32,76 @@ public class ChessSquarePanel extends JPanel {
 	}
 
 	/**
-	 * Constructor for ChessSquarePanel
-	 * 		Sets backColor and boolean flag for queen
+	 * Constructor for ChessSquarePanel Sets backColor and boolean flag for
+	 * queen
 	 */
 	public ChessSquarePanel(Color c, boolean q) {
 		backColor = c;
 		queen = q;
 	}
 
-	
+	public void addQueens() {
+		ArrayList<Queen> queens = new ArrayList<Queen>();
+			addQueens(0, 0, queens);
+	}
+
 	/**
-	 * Recursively adds queens to the Chess Board until there are
-	 * eight legally placed queens on the board
+	 * Recursively adds queens to the Chess Board until there are eight legally
+	 * placed queens on the board
 	 * 
 	 * @param queens
-	 *            boolean matrix, true denoting spaces with a queen, false otherwise
+	 *            boolean matrix, true denoting spaces with a queen, false
+	 *            otherwise
 	 * 
 	 * @return boolean true if 8 queens are properly placed
 	 */
-	public boolean addQueens(int r, int c, ArrayList<Queen> queens) { //need to add 0,0 before calling first
-		c = queens.get(queens.size()-1).getCol();
+	public boolean addQueens(int r, int c, ArrayList<Queen> queens) {
 
-		while (queens.size() < COLS) {	
-			for (r = 0; r < ROWS; r++) {
-				if (isLegal(r, c, queens)) {
-					placedQueens.add(new Queen(r, c));
-					c++;
-					this.setQueen(true);
-					return addQueens(r, c, queens);
-				} 
+		if (queens.size() == COLS) {
+			return true;
+		}
+		for (; r < ROWS; r++) {
+			System.out.println("checking: " + r + ", " + c);
+			if (isLegal(r, c, queens)) {
+				queens.add(new Queen(r, c));
+				// this.setQueen(true);
+				if (!addQueens(0, c+1, queens)) {
+					Queen q = queens.remove(queens.size() - 1);
+					r = q.getRow();
+					c = q.getCol();
+				}
+			}
+
+			if (queens.size() == COLS) {
+				ArrayList<Queen> solution = (ArrayList<Queen>) queens.clone();
+				sol.add(solution);
+				Queen q = queens.remove(queens.size() - 1);
+				r = q.getRow();
+				c = q.getCol();
 			}
 		}
-		return true;
+
+		return false;
+
 	}
+
+	/*
+	 * steps outside of method, need to send in 0, 0 for first placement first
+	 * (0,0) parameters
+	 */
 
 	/**
 	 * Determines if the placement of a queen is legal
 	 * 
 	 * @param r
-	 * 		row in which the queen is placed
+	 *            row in which the queen is placed
 	 * 
 	 * @param c
-	 * 		col in which the queen is placed
+	 *            col in which the queen is placed
 	 * 
 	 * @param queens
-	 * 		 boolean matrix, true denoting spaces with a queen, false otherwise
+	 *            boolean matrix, true denoting spaces with a queen, false
+	 *            otherwise
 	 * 
 	 * @return boolean true if the placement is legal, false otherwise
 	 */
@@ -92,10 +116,11 @@ public class ChessSquarePanel extends JPanel {
 	 * 
 	 * 
 	 * @param c
-	 * 		col in which the queen is placed
+	 *            col in which the queen is placed
 	 * 
 	 * @param queens
-	 * 		 boolean matrix, true denoting spaces with a queen, false otherwise
+	 *            boolean matrix, true denoting spaces with a queen, false
+	 *            otherwise
 	 * 
 	 * @return boolean true if the path is clear, false otherwise
 	 */
@@ -112,10 +137,10 @@ public class ChessSquarePanel extends JPanel {
 	 * Determines if the vertical path of a queen is clear
 	 * 
 	 * @param r
-	 * 		row in which the queen is placed
+	 *            row in which the queen is placed
 	 * 
 	 * @param queens
-	 * 		 ArrayList
+	 *            ArrayList
 	 * 
 	 * @return boolean true if the path is clear, false otherwise
 	 */
@@ -127,28 +152,28 @@ public class ChessSquarePanel extends JPanel {
 		return true;
 	}
 
-	
 	/**
 	 * Determines if the diagonal path of a queen is clear
 	 * 
 	 * @param r
-	 * 		row in which the queen is placed
+	 *            row in which the queen is placed
 	 * 
 	 * @param c
-	 * 		col in which the queen is placed
+	 *            col in which the queen is placed
 	 * 
 	 * @param queens
-	 * 		 boolean matrix, true denoting spaces with a queen, false otherwise
+	 *            boolean matrix, true denoting spaces with a queen, false
+	 *            otherwise
 	 * 
 	 * @return boolean true if the path is clear, false otherwise
 	 */
 	public boolean checkDiagonal(int r, int c, ArrayList<Queen> q) {
-		//slope, creds to patty
-		for (int i = 0; i<q.size(); i++){
-		if (Math.abs(r-q.get(i).getRow()) == Math.abs(c-q.get(i).getRow()))
+		// slope, creds to patty
+		for (int i = 0; i < q.size(); i++) {
+			if (Math.abs(r - q.get(i).getRow()) == Math.abs(c - q.get(i).getCol()))
 				return false;
 		}
-		
+
 		return true;
 	}
 
@@ -156,7 +181,7 @@ public class ChessSquarePanel extends JPanel {
 	 * Displays a "Q" on the Board (add more to this****)
 	 * 
 	 * @param g
-	 * 		Graphics
+	 *            Graphics
 	 * 
 	 */
 	public void paintComponent(Graphics g) {
@@ -183,6 +208,30 @@ public class ChessSquarePanel extends JPanel {
 
 	public boolean getQueen() {
 		return queen;
+	}
+	
+	public ArrayList<ArrayList<Queen>> getSolutions(){
+		return sol;
+	}
+	
+	public int getSolNum(){
+		return sol.size();
+	}
+
+	public static void main(String[] args) {
+		ChessSquarePanel p = new ChessSquarePanel();
+		p.addQueens(); // initial call, sends in 0,0
+		for (ArrayList<Queen> q : p.sol) {
+			System.out.println(q);
+		}
+		System.out.println("Number of Solutions: " + p.sol.size());
+
+		
+//		 if (p.addQueens(r, c, queens) ) {
+//		 System.out.println("Eight Queens Successfully Displayed");
+//		 }
+//		 else
+//		 System.out.println("Failed");
 	}
 
 }

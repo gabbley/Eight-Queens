@@ -41,7 +41,7 @@ public class Queen {
 	}
 	
 	public String toString(){
-		return "row: " + row + ", col: " + col;
+		return "{"+  row + "," + col + "}";
 	}
 
 }

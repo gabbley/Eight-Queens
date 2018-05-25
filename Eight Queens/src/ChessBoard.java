@@ -1,9 +1,12 @@
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.Color;
@@ -21,8 +24,11 @@ public class ChessBoard {
 
 	private JFrame window;
 	private JPanel panelOne, panelTwo, panelThree;
+	private JButton btnSolutions;
+	private JLabel lblSolutions;
 	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; 
 	ArrayList<Queen> queens = new ArrayList<Queen>();
+	static ArrayList<ArrayList<Queen>> sol = new ArrayList<ArrayList<Queen>>();
 
 	/**
 	 * <h1>ChessBoard</h1>Description here
@@ -32,7 +38,8 @@ public class ChessBoard {
 	ChessBoard() {
 		buildFrame();
 		queens = new ArrayList<Queen>();
-		fillArr();
+		btnSolutions = new JButton("Next Solution");
+		lblSolutions = new JLabel("Solution #");
 		
 		panelOne = buildHeaderPanel();
 		panelTwo = buildGridPanels();
@@ -41,16 +48,31 @@ public class ChessBoard {
 		window.add(panelOne);
 		window.add(panelTwo);
 		window.add(panelThree);
+		panelThree.add(btnSolutions);
+		panelThree.add(lblSolutions);
+		btnSolutions.addActionListener(new Action());
+	
 
-		// window.pack(); // Adjusts the frame size, so - collapses it ...
 		window.setVisible(true);
+	}
+
+	
+	class Action implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			int i = 0; //does this reset it every click
+			ChessBoard c = new ChessBoard();
+			ArrayList<Queen> queens = sol.get(i);
+			for (Queen q : queens)
+				c.updatePanel(q.getRow(), q.getCol());
+			lblSolutions.setText("Solution " + i);
+			i++;
+		}
 	}
 
 	private void buildFrame() {
 		window = new JFrame("Eight Queens Algorithm");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(new Dimension(WIDTH, HEIGHT));
-		// could set min, max, and preferred dimensions, I think
 		window.setLayout(new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS));
 	}
 
@@ -85,8 +107,7 @@ public class ChessBoard {
 			for (int c = 0; c < COLS; c++) {
 				bg = setPanelColor(r, c);
 				ChessSquarePanel m = new ChessSquarePanel(bg, false); // fix!
-				spaces[r][c] = m; // keep a reference to the panel, so we can
-									// change it
+				spaces[r][c] = m; 
 				p.add(m);
 			}
 		}
@@ -99,30 +120,18 @@ public class ChessBoard {
 		p.setMaximumSize(new Dimension(WIDTH, 50));
 		p.setPreferredSize(new Dimension(WIDTH, 40));
 		p.setBackground(FOOTER_COLOR);
-		p.add(new JLabel("Litty!!!"));
 		return p;
 	}
-
+	
 	private void updatePanel(int r, int c) {
 		ChessSquarePanel p = spaces[r][c];
-		if (p.addQueens(r, c, queens) ) {
-			System.out.println("Eight Queens Successfully Displayed");
-			//p.setQueen(true); // displays the Q
-		}
-		else
-			System.out.println("you suck");
-
-	}
-
-	private void fillArr() { 
-		for (int r = 0; r < ROWS; r++) {
-			//queen.get(r).ge
-		}
-
+		p.setQueen(true);
 	}
 
 	public static void main(String[] args) {
-		ChessBoard cb = new ChessBoard();
-		cb.updatePanel(0, 0);
+		ChessSquarePanel p = new ChessSquarePanel();
+		sol = p.getSolutions();
+		ChessBoard c = new ChessBoard();
+		
 	}
 }
