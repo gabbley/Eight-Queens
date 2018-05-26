@@ -26,7 +26,7 @@ public class ChessBoard {
 	private JPanel panelOne, panelTwo, panelThree;
 	private JButton btnSolutions;
 	private JLabel lblSolutions;
-	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS]; 
+	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS];
 	ArrayList<Queen> queens = new ArrayList<Queen>();
 	static ArrayList<ArrayList<Queen>> sol = new ArrayList<ArrayList<Queen>>();
 
@@ -40,7 +40,7 @@ public class ChessBoard {
 		queens = new ArrayList<Queen>();
 		btnSolutions = new JButton("Next Solution");
 		lblSolutions = new JLabel("Solution #");
-		
+
 		panelOne = buildHeaderPanel();
 		panelTwo = buildGridPanels();
 		panelThree = buildFooterPanel();
@@ -51,20 +51,19 @@ public class ChessBoard {
 		panelThree.add(btnSolutions);
 		panelThree.add(lblSolutions);
 		btnSolutions.addActionListener(new Action());
-	
 
 		window.setVisible(true);
 	}
 
-	
-	class Action implements ActionListener{
+	class Action implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int i = 0; //does this reset it every click
+			int i = 0; // does this reset it every click
 			ChessBoard c = new ChessBoard();
 			ArrayList<Queen> queens = sol.get(i);
-			for (Queen q : queens)
+			for (Queen q : queens) {
 				c.updatePanel(q.getRow(), q.getCol());
-			lblSolutions.setText("Solution " + i);
+				lblSolutions.setText("Solution " + i);
+			}
 			i++;
 		}
 	}
@@ -107,7 +106,7 @@ public class ChessBoard {
 			for (int c = 0; c < COLS; c++) {
 				bg = setPanelColor(r, c);
 				ChessSquarePanel m = new ChessSquarePanel(bg, false); // fix!
-				spaces[r][c] = m; 
+				spaces[r][c] = m;
 				p.add(m);
 			}
 		}
@@ -122,7 +121,7 @@ public class ChessBoard {
 		p.setBackground(FOOTER_COLOR);
 		return p;
 	}
-	
+
 	private void updatePanel(int r, int c) {
 		ChessSquarePanel p = spaces[r][c];
 		p.setQueen(true);
@@ -132,6 +131,6 @@ public class ChessBoard {
 		ChessSquarePanel p = new ChessSquarePanel();
 		sol = p.getSolutions();
 		ChessBoard c = new ChessBoard();
-		
+
 	}
 }
