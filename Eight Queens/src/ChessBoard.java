@@ -67,14 +67,17 @@ public class ChessBoard {
 	class Action implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			resetPanel();
+		
+			qarr = sol.get(i);
 
 			for (int n = 0; n < qarr.size(); n++) {
-				Queen q = sol.get(i).get(n);
+				Queen q = qarr.get(n);
 				ChessSquarePanel p = spaces[q.getRow()][q.getCol()];
 				p.setQueen(true);
-				lblSolutions.setText("Solution test " + i);
 			}
 			i++;
+			lblSolutions.setText("Solution test " + i);
 		}
 
 	}
@@ -167,23 +170,28 @@ public class ChessBoard {
 		p.setBackground(FOOTER_COLOR);
 		return p;
 	}
-
-//	/**
-//	 * Updates specific square grid panel
-//	 * 
-//	 * @param r
-//	 *            row of square grid to update
-//	 * 
-//	 * @param c
-//	 *            col of square grid to update
-//	 */
-//	private void updatePanel(int r, int c) {
-//
-//	}
+	
+	/**
+	 * Resets chess board to empty board
+	 */
+	private void resetPanel() {
+		for (int r = 0; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
+				ChessSquarePanel csq = spaces[r][c];
+				csq.resetQueen();
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		ChessSquarePanel p = new ChessSquarePanel();
+		
+		p.addQueens(); // initial call, sends in 0,0
+		for (ArrayList<Queen> q : p.sol) {
+			System.out.println(q);
+		}
 		sol = p.sol;
+		
 
 		cb = new ChessBoard();
 		

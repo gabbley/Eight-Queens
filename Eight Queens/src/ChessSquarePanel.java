@@ -42,7 +42,7 @@ public class ChessSquarePanel extends JPanel {
 
 	public void addQueens() {
 		ArrayList<Queen> queens = new ArrayList<Queen>();
-			addQueens(0, 0, queens);
+		addQueens(0, 0, queens);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class ChessSquarePanel extends JPanel {
 			if (isLegal(r, c, queens)) {
 				queens.add(new Queen(r, c));
 				// this.setQueen(true);
-				if (!addQueens(0, c+1, queens)) {
+				if (!addQueens(0, c + 1, queens)) {
 					Queen q = queens.remove(queens.size() - 1);
 					r = q.getRow();
 					c = q.getCol();
@@ -84,7 +84,6 @@ public class ChessSquarePanel extends JPanel {
 		return false;
 
 	}
-
 
 	/**
 	 * Determines if the placement of a queen is legal
@@ -174,7 +173,7 @@ public class ChessSquarePanel extends JPanel {
 	}
 
 	/**
-	 * Displays a "Q" on the Board (add more to this****)
+	 * Displays a "Q" on the Board
 	 * 
 	 * @param g
 	 *            Graphics
@@ -191,27 +190,35 @@ public class ChessSquarePanel extends JPanel {
 		int y = (this.getHeight() / 2) + FONTSIZE / 4;
 		if (isQueen())
 			g.drawString(QUEEN, x, y);
+
+
+
+	}
+
+	public boolean resetQueen() {
+		return true;
 	}
 
 	/**
 	 * Determines if a queen placement is part of a legal arrangement
 	 * 
-	 * @return boolean
-	 * 		returns true if a valid queen placement
+	 * @return boolean returns true if a valid queen placement
 	 */
 	public boolean isQueen() {
 		return queen;
 	}
 
 	/**
-	 * Sets queen to true if placement is part of a legal arrangement, false otherwise, displays queen on Board
+	 * Sets queen to true if placement is part of a legal arrangement, false
+	 * otherwise, displays queen on Board
 	 * 
 	 * @param boolean
-	 * 		boolean to set queen
+	 *            boolean to set queen
 	 */
 	public void setQueen(boolean q) {
 		queen = q;
-		repaint();
+		if (q)
+			repaint();
 	}
 
 	public static void main(String[] args) {
@@ -221,7 +228,6 @@ public class ChessSquarePanel extends JPanel {
 			System.out.println(q);
 		}
 		System.out.println("Number of Solutions: " + p.sol.size());
-
 
 	}
 
