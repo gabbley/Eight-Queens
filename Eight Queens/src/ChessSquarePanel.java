@@ -85,10 +85,6 @@ public class ChessSquarePanel extends JPanel {
 
 	}
 
-	/*
-	 * steps outside of method, need to send in 0, 0 for first placement first
-	 * (0,0) parameters
-	 */
 
 	/**
 	 * Determines if the placement of a queen is legal
@@ -197,25 +193,25 @@ public class ChessSquarePanel extends JPanel {
 			g.drawString(QUEEN, x, y);
 	}
 
+	/**
+	 * Determines if a queen placement is part of a legal arrangement
+	 * 
+	 * @return boolean
+	 * 		returns true if a valid queen placement
+	 */
 	public boolean isQueen() {
 		return queen;
 	}
 
+	/**
+	 * Sets queen to true if placement is part of a legal arrangement, false otherwise, displays queen on Board
+	 * 
+	 * @param boolean
+	 * 		boolean to set queen
+	 */
 	public void setQueen(boolean q) {
 		queen = q;
 		repaint();
-	}
-
-	public boolean getQueen() {
-		return queen;
-	}
-	
-	public ArrayList<ArrayList<Queen>> getSolutions(){
-		return sol;
-	}
-	
-	public int getSolNum(){
-		return sol.size();
 	}
 
 	public static void main(String[] args) {
@@ -226,12 +222,7 @@ public class ChessSquarePanel extends JPanel {
 		}
 		System.out.println("Number of Solutions: " + p.sol.size());
 
-		
-//		 if (p.addQueens(r, c, queens) ) {
-//		 System.out.println("Eight Queens Successfully Displayed");
-//		 }
-//		 else
-//		 System.out.println("Failed");
+
 	}
 
 }

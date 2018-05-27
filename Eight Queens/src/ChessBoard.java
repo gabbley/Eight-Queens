@@ -29,9 +29,13 @@ public class ChessBoard {
 	ChessSquarePanel[][] spaces = new ChessSquarePanel[ROWS][COLS];
 	ArrayList<Queen> queens = new ArrayList<Queen>();
 	static ArrayList<ArrayList<Queen>> sol = new ArrayList<ArrayList<Queen>>();
+	ArrayList<Queen> qarr;
+	public int i = 0;
+	public static ChessBoard cb;
 
 	/**
-	 * <h1>ChessBoard</h1>Description here
+	 * <h1>ChessBoard</h1>GUI for ChessBoard to display the 92 Eight Queen
+	 * Solutions
 	 * 
 	 * @author Gabby Baniqued
 	 */
@@ -55,19 +59,29 @@ public class ChessBoard {
 		window.setVisible(true);
 	}
 
+	/**
+	 * Executes when JButton btnSolutions is clicked
+	 * 
+	 * @return Action
+	 */
 	class Action implements ActionListener {
+
 		public void actionPerformed(ActionEvent e) {
-			int i = 0; // does this reset it every click
-			ChessBoard c = new ChessBoard();
-			ArrayList<Queen> queens = sol.get(i);
-			for (Queen q : queens) {
-				c.updatePanel(q.getRow(), q.getCol());
-				lblSolutions.setText("Solution " + i);
+
+			for (int n = 0; n < qarr.size(); n++) {
+				Queen q = sol.get(i).get(n);
+				ChessSquarePanel p = spaces[q.getRow()][q.getCol()];
+				p.setQueen(true);
+				lblSolutions.setText("Solution test " + i);
 			}
 			i++;
 		}
+
 	}
 
+	/**
+	 * Builds JFrame
+	 */
 	private void buildFrame() {
 		window = new JFrame("Eight Queens Algorithm");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,6 +89,9 @@ public class ChessBoard {
 		window.setLayout(new BoxLayout(window.getContentPane(), BoxLayout.Y_AXIS));
 	}
 
+	/**
+	 * Builds heads JPanel
+	 */
 	private JPanel buildHeaderPanel() {
 		JPanel p = new JPanel();
 		p.setPreferredSize(new Dimension(WIDTH, 40));
@@ -85,10 +102,29 @@ public class ChessBoard {
 		return p;
 	}
 
+	/**
+	 * Determines if given number is even or not
+	 * 
+	 * @param x
+	 *            given int
+	 * 
+	 * @return boolean true if even, false otherwise
+	 */
 	private boolean isEven(int x) {
 		return x % 2 == 0;
 	}
 
+	/**
+	 * Sets the altnerative colors of the chess board
+	 * 
+	 * @param row
+	 *            row of the chessboard
+	 * 
+	 * @param col
+	 *            col of the chessboard
+	 * 
+	 * @return Color Color to set specific square of the ChessBoard to
+	 */
 	private Color setPanelColor(int row, int col) {
 		if (isEven(row) && !isEven(col))
 			return LIGHT_COLOR;
@@ -98,6 +134,11 @@ public class ChessBoard {
 			return DARK_COLOR;
 	}
 
+	/**
+	 * Builds square grids as individual JPanels
+	 * 
+	 * @return JPanel Individual square grid panels
+	 */
 	private JPanel buildGridPanels() {
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(ROWS, COLS));
@@ -113,6 +154,11 @@ public class ChessBoard {
 		return p;
 	}
 
+	/**
+	 * Builds footer panel
+	 * 
+	 * @return JPanel JPanel with added components
+	 */
 	private JPanel buildFooterPanel() {
 		JPanel p = new JPanel();
 		p.setMinimumSize(new Dimension(WIDTH, 10));
@@ -122,15 +168,24 @@ public class ChessBoard {
 		return p;
 	}
 
-	private void updatePanel(int r, int c) {
-		ChessSquarePanel p = spaces[r][c];
-		p.setQueen(true);
-	}
+//	/**
+//	 * Updates specific square grid panel
+//	 * 
+//	 * @param r
+//	 *            row of square grid to update
+//	 * 
+//	 * @param c
+//	 *            col of square grid to update
+//	 */
+//	private void updatePanel(int r, int c) {
+//
+//	}
 
 	public static void main(String[] args) {
 		ChessSquarePanel p = new ChessSquarePanel();
-		sol = p.getSolutions();
-		ChessBoard c = new ChessBoard();
+		sol = p.sol;
 
+		cb = new ChessBoard();
+		
 	}
 }
